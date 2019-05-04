@@ -1,4 +1,4 @@
-# sprint-5：商品详情页
+# 商品详情页
 
 展示商品详细信息，提供竞价和揭示出价的操作界面。
 
@@ -22,22 +22,22 @@
 
 在终端4#构建应用。
 
-进入`sprint-5`目录：
+进入`sprint`目录：
 
 ```
-~$ cd ~/repo/sprint-5
+~$ cd ~/repo/sprint
 ```
 
 编译合约：
 
 ```
-~/repo/sprint-5$ truffle compile
+~/repo/sprint$ truffle compile
 ```
 
 部署合约：
 
 ```
-~/repo/sprint-5$ truffle migrate --reset
+~/repo/sprint$ truffle migrate --reset
 ```
 
 如果重新启动了节点仿真器，也可以不加`--reset`选项。
@@ -49,20 +49,13 @@
 向链上添加一些模拟商品数据：
 
 ```
-~/repo/sprint-5$ truffle exec seed.js
+~/repo/sprint$ truffle exec seed.js
 ```
 
 启动开发服务器：
 
 ```
-~/repo/sprint-5$ npm run dev
-```
-
-在练习环境中刷新嵌入浏览器，查看网页效果。点击商品进入详情页，或者修改
-嵌入浏览器的地址栏，例如：
-
-```
-http://8080.5208b19150ceaf44c4ea59e0f43c6fed.x.hubwiz.com/product.html?id=1
+~/repo/sprint$ npm run dev
 ```
 
 ## 附：初始化ipfs
