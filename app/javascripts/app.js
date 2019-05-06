@@ -14,7 +14,7 @@ const ipfsApiAddress = {
   host: IPFS_API_HOST ? IPFS_API_HOST : 'localhost',
   port: IPFS_API_PORT ? IPFS_API_PORT : 5001  
 }
-const ipfsGatewayUrl = IPFS_GATEWAY_URL ? IPFS_GATEWAY_URL : 'http://localhost:8080'
+const ipfsGatewayUrl = IPFS_GATEWAY_URL ? IPFS_GATEWAY_URL : 'http://ipfs.io'
 
 const EcommerceStore = contract(ecommerce_store_artifacts);
 const ipfs = ipfsAPI(ipfsApiAddress);
@@ -82,7 +82,41 @@ window.App = {
               $("#msg").show();
               $("#msg").html("Your bid has been successfully revealed!");
             })
+            .catch(err => console.log(err))
       });      
+      
+      $("#finalize-auction").submit(function(event) {
+        event.preventDefault();
+        $("#msg").hide();
+        let productId = $("#product-id").val();
+        EcommerceStore.deployed()
+          .then(inst => inst.finalizeAuction(parseInt(productId), {from: web3.eth.accounts[9], gas: 4400000}))
+          .then(ret => {
+             $("#msg").show();
+             $("#msg").html("The auction has been finalized and winner declared.");
+             //location.reload();
+          })
+          .catch(err => console.log(err))
+      });    
+      
+      $(".release-funds").click(function() {
+        let productId = new URLSearchParams(window.location.search).get('id');
+        let account = $(this).data('account')
+        EcommerceStore.deployed()
+          .then(inst => inst.releaseAmountToSeller(productId, {from: account, gas: 440000}))
+          .then(() => $("#msg").html("Your transaction has been submitted. Please wait for few seconds for the confirmation").show())
+          .catch(err => console.log(err))
+      });
+
+      $(".refund-funds").click(function() {
+        let productId = new URLSearchParams(window.location.search).get('id');
+        let account = $(this).data('account')
+        EcommerceStore.deployed()
+          .then(f => f.refundAmountToBuyer(productId, {from: account, gas: 440000}))
+          .then(() => $("#msg").html("Your transaction has been submitted. Please wait for few seconds for the confirmation").show())
+          .catch(err => console.log(err))
+      });
+            
     }    
     
   }
@@ -118,7 +152,7 @@ function buildProduct(product) {
               </div>`
   return $(html)
   	.css('cursor','pointer')
-  	.click(()=>location.href=`/product.html?id=${product[0]}`);
+  	.click(()=>location.href=`/product.html?id=${product[0]}`);  
 }
 
 function saveImageOnIpfs(reader) {
@@ -199,10 +233,12 @@ function renderProductDetails(productId) {
     .then(inst => inst.getProduct.call(productId))
     .then(p => {
       let content = "";
-      ipfs.cat(p[4]).then(function(file) {
-        content = file.toString();
-        $("#product-desc").append(`<div>${content}</div>`);
-      });
+      ipfs.cat(p[4])
+        .then(function(file) {
+          content = file.toString();
+          $("#product-desc").append(`<div>${content}</div>`);
+        })
+        .catch(err => console.log(err))
 
       $("#product-image").append(`<img src='${ipfsGatewayUrl}/ipfs/${p[3]}' width='250px'/>`);
       $("#product-price").html(displayPrice(p[7]));
@@ -211,11 +247,48 @@ function renderProductDetails(productId) {
       $("#product-id").val(p[0]);
       
       let currentTime = getCurrentTimeInSeconds();
-      $("#revealing, #bidding").hide();
-      if(currentTime < p[6]) {
+      $("#revealing, #bidding,#finalize-auction,#escrow-info").hide();
+      if (parseInt(p[8]) == 1) {
+        EcommerceStore.deployed()
+          .then(inst =>  {
+            $("#escrow-info").show();
+            inst.highestBidderInfo.call(productId)
+              .then(f => {
+                if (f[2].toLocaleString() == '0') {
+                  $("#product-status").html("Auction has ended. No bids were revealed");
+                } else {
+                  $("#product-status").html("Auction has ended. Product sold to " + f[0] + " for " + displayPrice(f[2]) +
+                    "The money is in the escrow. Two of the three participants (Buyer, Seller and Arbiter) have to " +
+                    "either release the funds to seller or refund the money to the buyer");
+                }
+              })
+
+            inst.escrowInfo.call(productId)
+              .then(f => {
+                $("#buyer").html('Buyer: ' + f[0]);
+                $("#seller").html('Seller: ' + f[1]);
+                $("#arbiter").html('Arbiter: ' + f[2]);
+                $("#buyer-vote a").data('account',f[0])
+                console.log($("#buyer-vote a")[0],f[0])
+                $("#seller-vote a").data('account',f[1])
+                $("#arbiter-vote a").data('account',f[2])
+                if(f[3] == true) {
+                  $("#release-count").html("Amount from the escrow has been released");
+                } else {
+                  $("#release-count").html(f[4] + " of 3 participants have agreed to release funds");
+                  $("#refund-count").html(f[5] + " of 3 participants have agreed to refund the buyer");
+                }
+              })
+              
+          })                     
+      } else if(parseInt(p[8]) == 2) {
+        $("#product-status").html("Product was not sold");
+      } else if(currentTime < parseInt(p[6])) {
         $("#bidding").show();
-      } else if (currentTime  < (p[6] + 600)) {
+      } else if (currentTime  < (parseInt(p[6])+60) ) {
         $("#revealing").show();
+      } else {
+        $("#finalize-auction").show();
       }
       
     })
