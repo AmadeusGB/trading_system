@@ -21,6 +21,31 @@
 
      <div class="col-lg-8 col-sm-6">
       <h3>Start Price: <span id="product-price"></span></h3>
+      <div id="product-status"></div>
+      <div id="escrow-info">
+        <p></p>
+        <div id="buyer"></div>
+        <div id="seller"></div>
+        <div id="arbiter"></div>
+        <p></p>
+        <div id="release-count"></div>
+        <div id="refund-count"></div>
+        <div id="buyer-vote">
+          <h4>Buyer vote</h4>
+          <a class="btn btn-success release-funds">Release Amount to Seller</a>
+          <a class="btn btn-primary refund-funds">Refund Amount to Buyer</a>
+        </div>
+        <div id="seller-vote">
+          <h4>Seller vote</h4>
+          <a class="btn btn-success release-funds">Release Amount to Seller</a>
+          <a class="btn btn-primary refund-funds">Refund Amount to Buyer</a>
+        </div>
+        <div id="arbiter-vote">
+          <h4>Arbiter vote</h4>
+          <a class="btn btn-success release-funds">Release Amount to Seller</a>
+          <a class="btn btn-primary refund-funds">Refund Amount to Buyer</a>
+        </div>
+      </div>
       
       <form id="bidding" class="col-lg-6 col-sm-12">
        <h4>Your Bid</h4>
@@ -42,7 +67,7 @@
        <button type="submit" class="btn btn-primary">Submit Bid</button>
       </form>
       
-      <form id="revealing" class="col lg-6 col-sm-12">
+      <form id="revealing" class="col-lg-6 col-sm-12">
        <h4>Reveal Bid</h4>
        <div class="form-group">
         <label for="actual-amount">Amount You Bid</label>
@@ -58,6 +83,11 @@
        <button type="submit" class="btn btn-primary">Reveal Bid</button>
       </form>      
 
+      <form id="finalize-auction" class="col-lg-6 col-sm-12">
+        <input type="hidden" name="product-id" id="product-id" />
+        <button type="submit" class="btn btn-danger">Finalize Auction
+      </form>    
+      
      </div>
     </div>
 
