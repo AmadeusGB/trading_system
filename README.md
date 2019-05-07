@@ -17,7 +17,7 @@
 
 在终端4#构建应用。
 
-进入`sprint`目录：
+进入`trading_system`目录：
 
 ```
 ~$ cd ~/trading_system
