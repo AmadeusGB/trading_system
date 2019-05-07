@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Decentralized Ecommerce Store</title>
+ <title>分布式电商拍卖系统</title>
  <script src="./app.js"></script>
 </head>
 <body>
  <div class="container" id="list-item-page">
-  <h1>List an item</h1>
+  <h1>商品列表</h1>
   <div class="container">
    <div class="row">
     <div style="display: none;" class="alert alert-success col-sm-8" id="msg"></div>
@@ -14,27 +14,27 @@
    <div class="row">
     <form class="col-sm-8" id="add-item-to-store">
      <div class="form-group row">
-      <label for="product-name" class="col-sm-2 control-label">Name</label>
+      <label for="product-name" class="col-sm-2 control-label">名称</label>
       <div class="col-sm-10">
        <input type="text" name="product-name" class="form-control" id="product-name" placeholder="iPhone, Jeans, shoes etc" required="required"></input>
       </div>
      </div>
 
      <div class="form-group row">
-      <label for="product-description" class="col-sm-2 control-label">Description</label>
+      <label for="product-description" class="col-sm-2 control-label">描述</label>
       <div class="col-sm-10">
        <textarea class="form-control" name="product-description" rows="3" id="product-description" placeholder="Enter detailed product description" required="required"></textarea>
       </div>
      </div>
 
      <div class="form-group row">
-      <label for="product-image" class="col-sm-2 control-label">Upload product photo</label>
+      <label for="product-image" class="col-sm-2 control-label">上传商品图片</label>
       <div class="col-sm-10">
        <input type="file" name="product-image" class="form-control" id="product-image" required="required">
       </div>
      </div>
      <div class="form-group row">
-      <label for="product-category" class="col-sm-2 control-label">Category</label>
+      <label for="product-category" class="col-sm-2 control-label">商品类型</label>
       <div class="col-sm-10">
        <select class="form-control" name="product-category" id="product-category">
         <option>Art</option>
@@ -64,31 +64,31 @@
      </div>
      
      <div class="form-group row">
-      <label for="product-price" class="col-sm-2 control-label">Start Price</label>
+      <label for="product-price" class="col-sm-2 control-label">开始价格</label>
       <div class="col-sm-10">
        <input type="text" class="form-control" name="product-price" id="product-price" required="required"></input>
       </div>
      </div>
 
      <div class="form-group row">
-      <label for="product-condition" class="col-sm-2 control-label">Product Condition</label>
+      <label for="product-condition" class="col-sm-2 control-label">产品详情</label>
       <div class="col-sm-10">
        <select class="form-control" name="product-condition" id="product-condition">
-        <option value="1">New</option>
-        <option value="2">Used</option>
+        <option value="1">全新</option>
+        <option value="2">二手</option>
        </select>
       </div>
      </div>
 
      <div class="form-group row">
-      <label for="product-price" class="col-sm-2 control-label">Auction Start Time</label>
+      <label for="product-price" class="col-sm-2 control-label">拍卖开始时间</label>
       <div class="col-sm-10">
        <input type="datetime-local" class="form-control" name="product-auction-start" id="product-auction-start" required="required"></input>
       </div>
      </div>
 
      <div class="form-group row">
-      <label for="product-price" class="col-sm-2 control-label">Days to run the auction</label>
+      <label for="product-price" class="col-sm-2 control-label">拍卖时长</label>
       <div class="col-sm-10">
        <select class="form-control" name="product-auction-end" id="product-auction-end">
         <option>1</option>
@@ -102,7 +102,7 @@
 
      <div class="form-group row">
       <div class="col-sm-offset-2 col-sm-10">
-       <button type="submit" class="btn btn-primary">Add Product To Store</button>
+       <button type="submit" class="btn btn-primary">创建</button>
       </div>
      </div>
      

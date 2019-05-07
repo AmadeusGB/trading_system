@@ -1,3 +1,7 @@
+#资金托管功能
+
+基于资金托管合约，更新电商合约，前端界面操作。
+
 ## 1.启动服务
 
 终端1#，启动以太坊节点：
@@ -20,19 +24,19 @@
 进入`sprint`目录：
 
 ```
-~$ cd ~/trading_system
+~$ cd ~/repo/sprint
 ```
 
 编译合约：
 
 ```
-~/trading_system$ truffle compile
+~/repo/sprint$ truffle compile
 ```
 
 部署合约：
 
 ```
-~/trading_system$ truffle migrate --reset
+~/repo/sprint$ truffle migrate --reset
 ```
 
 ## 3.运行应用
@@ -42,13 +46,13 @@
 向链上添加一些模拟商品数据：
 
 ```
-~/trading_system$ truffle exec seed.js
+~/repo/sprint$ truffle exec seed.js
 ```
 
 启动开发服务器：
 
 ```
-~/trading_system$ npm run dev
+~/repo/sprint$ npm run dev
 ```
 
 
